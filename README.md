@@ -11,7 +11,7 @@ A dummy shopping app in flask
 - Python
 
 # To run
-- Clone the repo "git clone <repo path>"
+- Clone the repo "git clone https://github.com/arya-hemanshu/Shopacholic.git"
 - Change the Database User name and Password in "settings.py"
 - Go to the folder in Terminal and follow these steps:
   - python initdb.py
