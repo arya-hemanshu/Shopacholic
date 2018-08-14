@@ -21,3 +21,5 @@ A dummy shopping app in flask
   - python init_db_records.py
   - python manage.py server
 - The sever should start listening on http://localhost:5000
+
+### Note: Make sure mysql is running
