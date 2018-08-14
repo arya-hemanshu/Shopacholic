@@ -11,7 +11,7 @@ A dummy shopping app in flask
 - Python
 
 # To run
-- Clone the repo "git clone https://github.com/arya-hemanshu/Shopacholic.git"
+- Clone the repo ```git clone https://github.com/arya-hemanshu/Shopacholic.git```
 - Change the Database User name and Password in "settings.py"
 - Go to the folder in Terminal and follow these steps:
   - ```python initdb.py```
@@ -20,7 +20,7 @@ A dummy shopping app in flask
   - ```python manage.py db upgrade```
   - ```python init_db_records.py```
   - ```python manage.py server```
-- The sever should start listening on http://localhost:5000
+- The sever should start listening on ```http://localhost:5000```
 
 ### Note: Make sure mysql is running
 
