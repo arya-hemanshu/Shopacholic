@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Shopacholic</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1>Shopacholic</h1>
+    </div>
+    <h2>Shopping Cart</h2>  
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                <th>Item Name</th>
+                <th>Item Price</th>
+                <th>Item Quantity</th>
+                <th>Item Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in c_list %}
+                <tr>
+                <td><img src='/static/item_images/{{c.product.image}}.jpg' height="40px" class="img-rounded"/>&nbsp;&nbsp;{{c.product.name}}</td>
+                <td>{{c.price_per_item}}</td>
+                <td>{{c.quantity}}</td>
+                <td>{{c.total_price}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Grand Total:</strong></td>
+                    <td><strong>{{total}}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="{{url_for('cancel')}}" class="btn btn-default" style="float: right;">Cancel</a>
+    <a href="{{url_for('checkout')}}" class="btn btn-default" style="float: right;">Checkout</a>         
+  </div>
+
+</body>
+</html>

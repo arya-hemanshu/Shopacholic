@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Shopacholic</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    .row.content {height: 550px}
+
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+  </style>
+  <script>
+      function basketDisplay() {
+        basket = document.getElementById('basket_item');
+        basket.innerHTML = parseInt("{{session['total_shopping_items']}}");
+      }
+      function addItem(item_id, product_type, quantity, price) {
+        temp = []
+        item_quantity_id = document.getElementById(quantity.id);
+        item_quantity = item_quantity_id.options[item_quantity_id.selectedIndex].value;
+        basket = document.getElementById('basket_item');
+        curr_value = basket.innerHTML;
+        if (curr_value.length == 0) {
+            curr_value = parseInt("{{session['total_shopping_items']}}");
+        }
+        var total_items = parseInt(curr_value) + parseInt(item_quantity);
+        basket.innerHTML = total_items;
+        temp.push([item_id, product_type, item_quantity, price, total_items])
+        
+        $.ajax({
+          type : "GET",
+          url : "{{ url_for('shopping_list', slist='item') }}".replace("item", temp),
+          contentType: 'application/text;charset=UTF-8',
+          success: function(result) {
+              console.log(result);
+          }
+      });
+      }
+
+  </script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Shopacholic</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        {% for p in product_type %}
+        <li><a href="{{ url_for('products', product_type_id=p.id)}}">{{p.type_name}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <h2>Shopacholic</h2>
+      <ul class="nav nav-pills nav-stacked">
+        {% for p in product_type %}
+        <li><a href="{{ url_for('products', product_type_id=p.id)}} ">{{p.type_name}}</a></li>
+        {% endfor %}
+      </ul><br>
+    </div>
+    <br>
+    
+    <div class="col-sm-9">
+      <div class="well">
+        <strong style="font-size: 20px;">Choose Items</strong>
+        <a href="{{ url_for('shopping') }}"><span class="glyphicon glyphicon-shopping-cart" style="float: right">
+            <span id="basket_item" class="badge badge-notify"></span>
+        </span></a>
+      </div>
+
+      {% if product_items %}
+        {% for item in product_items %}
+            {% if (loop.index-1)%4 == 0 %}
+            <div class="row">
+            {% endif %}
+                <div class="col-sm-3">
+                    <div class="well">
+                        <img src='/static/item_images/{{item.image}}.jpg' height="80px" class="img-rounded"/>
+                        <a href="#" data-toggle="modal" data-target="#{{item.image}}"><h4>{{item.name}}</h4></a>
+                        <p>{{item.short_desc}}</p> 
+                        <p><strong>Price:</strong> {{item.price}}</p>
+
+                        <p><select id="_{{item.image}}" class="form-control">
+                            {% for i in range(1, 11) %}
+                            <option value={{i}}>{{i}}</option>
+                            {% endfor %}
+                        </select></p>
+                        <p><button onclick="addItem({{item.id}}, {{item.product_type}}, _{{item.image}}, {{item.price}})" class="btn btn-default">Add to Basket</button></p>
+                    </div>
+                </div>
+            {% if (loop.index)%4 == 0 or loop.index == loop.length%}
+            </div>
+            {% endif %}
+
+            <div id="{{item.image}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">{{item.name}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p><img src='/static/item_images/{{item.image}}.jpg' height="300px" class="img-rounded"/></p>
+                            <p>{{item.long_desc}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" onclick="addItem({{item.id}}, {{item.product_type}}, _{{item.image}}, {{item.price}})" class="btn btn-default" data-dismiss="modal">Add to Cart</button> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+<script>basketDisplay();</script>
+</body>
+</html>
