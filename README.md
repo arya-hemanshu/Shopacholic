@@ -23,3 +23,7 @@ A dummy shopping app in flask
 - The sever should start listening on http://localhost:5000
 
 ### Note: Make sure mysql is running
+
+# To run tests
+- Make sure mysql is running
+- Go to the folder in Terminal and type ```python test_shopacholic.py```
