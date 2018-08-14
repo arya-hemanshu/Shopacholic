@@ -8,7 +8,7 @@ A dummy shopping app in flask
 - Flask-Migrate
 - Flask-Script
 - PyMySQL
-- Python
+- Python3
 
 # To run
 - Clone the repo ```git clone https://github.com/arya-hemanshu/Shopacholic.git```
